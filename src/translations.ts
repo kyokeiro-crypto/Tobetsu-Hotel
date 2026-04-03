@@ -132,7 +132,7 @@ export const translations = {
     gallery: {
       title: 'ギャラリー',
       subtitle: '館内および周辺の様子',
-      tabRyokan: '旅館（PDFより）',
+      tabRyokan: '旅館',
       tabDorm: '社員寮'
     },
     contact: {
@@ -277,7 +277,7 @@ export const translations = {
     gallery: {
       title: '照片画廊',
       subtitle: '馆内及周边环境',
-      tabRyokan: '旅馆（摘自PDF）',
+      tabRyokan: '旅馆',
       tabDorm: '员工宿舍'
     },
     contact: {
@@ -422,7 +422,7 @@ export const translations = {
     gallery: {
       title: 'Gallery',
       subtitle: 'Inside and around the facility',
-      tabRyokan: 'Ryokan (From PDF)',
+      tabRyokan: 'Ryokan',
       tabDorm: 'Staff Dormitory'
     },
     contact: {
