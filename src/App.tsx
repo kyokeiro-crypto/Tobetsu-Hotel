@@ -14,7 +14,8 @@ import {
   Star,
   CheckCircle2,
   Globe,
-  Download
+  Download,
+  X
 } from 'lucide-react';
 import { translations, Language } from './translations';
 
@@ -41,6 +42,7 @@ export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [lang, setLang] = useState<Language>('ja');
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const t = translations[lang];
 
   useEffect(() => {
@@ -490,7 +492,10 @@ export default function App() {
                 { src: "./images/ryokan-9.png", alt: "Ryokan Garden" }
               ].map((img, i) => (
                 <FadeIn key={`ryokan-${i}`} delay={i * 0.1}>
-                  <div className="aspect-[4/3] rounded-xl overflow-hidden group relative cursor-pointer">
+                  <div 
+                    className="aspect-[4/3] rounded-xl overflow-hidden group relative cursor-pointer"
+                    onClick={() => setSelectedImage(img.src)}
+                  >
                     <img 
                       src={img.src} 
                       alt={img.alt} 
@@ -516,7 +521,10 @@ export default function App() {
                 { src: "./images/dorm-3.png", alt: "Dormitory Hall" }
               ].map((img, i) => (
                 <FadeIn key={`dorm-${i}`} delay={i * 0.1}>
-                  <div className="aspect-[4/3] rounded-xl overflow-hidden group relative cursor-pointer">
+                  <div 
+                    className="aspect-[4/3] rounded-xl overflow-hidden group relative cursor-pointer"
+                    onClick={() => setSelectedImage(img.src)}
+                  >
                     <img 
                       src={img.src} 
                       alt={img.alt} 
@@ -579,6 +587,30 @@ export default function App() {
           </p>
         </div>
       </footer>
+
+      {/* Image Modal (Lightbox) */}
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 md:p-10 no-print"
+          onClick={() => setSelectedImage(null)}
+        >
+          <button 
+            className="absolute top-6 right-6 md:top-10 md:right-10 text-white/70 hover:text-white transition-colors"
+            onClick={() => setSelectedImage(null)}
+          >
+            <X className="w-10 h-10" />
+          </button>
+          <motion.img 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.2 }}
+            src={selectedImage} 
+            alt="Enlarged view" 
+            className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+            onClick={(e) => e.stopPropagation()} 
+          />
+        </div>
+      )}
     </div>
   );
 }
