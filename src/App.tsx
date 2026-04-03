@@ -477,19 +477,19 @@ export default function App() {
 
           <div className="mb-12">
             <h3 className="text-xl font-bold text-ryokan-dark mb-6 border-l-4 border-ryokan-gold pl-4">{t.gallery.tabRyokan}</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
-                { src: "/images/ryokan-1.jpg", alt: "Ryokan Bath" },
-                { src: "/images/ryokan-2.jpg", alt: "Ryokan Room" },
-                { src: "/images/ryokan-3.jpg", alt: "Ryokan Exterior" },
-                { src: "/images/ryokan-4.jpg", alt: "Ryokan Lobby" },
-                { src: "/images/ryokan-5.jpg", alt: "Ryokan Dining" },
-                { src: "/images/ryokan-6.jpg", alt: "Ryokan Lounge" },
-                { src: "/images/ryokan-7.jpg", alt: "Ryokan Banquet Hall" },
-                { src: "/images/ryokan-8.jpg", alt: "Ryokan Hallway" }
+                { src: "/images/ryokan-1.png", alt: "Ryokan Bath" },
+                { src: "/images/ryokan-2.png", alt: "Ryokan Room" },
+                { src: "/images/ryokan-3.png", alt: "Ryokan Exterior" },
+                { src: "/images/ryokan-4.png", alt: "Ryokan Lobby" },
+                { src: "/images/ryokan-5.png", alt: "Ryokan Dining" },
+                { src: "/images/ryokan-6.png", alt: "Ryokan Lounge" },
+                { src: "/images/ryokan-7.png", alt: "Ryokan Banquet Hall" },
+                { src: "/images/ryokan-8.png", alt: "Ryokan Hallway" }
               ].map((img, i) => (
                 <FadeIn key={`ryokan-${i}`} delay={i * 0.1}>
-                  <div className="aspect-square rounded-xl overflow-hidden group relative cursor-pointer">
+                  <div className="aspect-[4/3] rounded-xl overflow-hidden group relative cursor-pointer">
                     <img 
                       src={img.src} 
                       alt={img.alt} 
