@@ -170,7 +170,7 @@ export const translations = {
       items: [
         {
           title: '资产价值',
-          desc: '拥有自有温泉，2亿千万日元的定价非常划算。'
+          desc: '拥有自有温泉，2亿5千万日元的定价非常划算。'
         },
         {
           title: '高评价',
