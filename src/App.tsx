@@ -484,7 +484,10 @@ export default function App() {
                 { src: "/images/ryokan-3.png", alt: "Ryokan Exterior" },
                 { src: "/images/ryokan-4.png", alt: "Ryokan Lobby" },
                 { src: "/images/ryokan-5.png", alt: "Ryokan Dining" },
-                { src: "/images/ryokan-6.png", alt: "Ryokan Lounge" }
+                { src: "/images/ryokan-6.png", alt: "Ryokan Lounge" },
+                { src: "/images/ryokan-7.png", alt: "Ryokan Banquet Hall" },
+                { src: "/images/ryokan-8.png", alt: "Ryokan Hallway" },
+                { src: "/images/ryokan-9.png", alt: "Ryokan Garden" }
               ].map((img, i) => (
                 <FadeIn key={`ryokan-${i}`} delay={i * 0.1}>
                   <div className="aspect-[4/3] rounded-xl overflow-hidden group relative cursor-pointer">
@@ -506,14 +509,11 @@ export default function App() {
 
           <div>
             <h3 className="text-xl font-bold text-ryokan-dark mb-6 border-l-4 border-ryokan-gold pl-4">{t.gallery.tabDorm}</h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
                 { src: "/images/dorm-1.jpg", alt: "Dormitory Exterior" },
                 { src: "/images/dorm-2.jpg", alt: "Dormitory Room" },
-                { src: "/images/dorm-3.jpg", alt: "Dormitory Hall" },
-                { src: "/images/dorm-4.jpg", alt: "Dormitory Kitchen" },
-                { src: "/images/dorm-5.jpg", alt: "Dormitory Bath" },
-                { src: "/images/dorm-6.jpg", alt: "Dormitory Dining" }
+                { src: "/images/dorm-3.jpg", alt: "Dormitory Hall" }
               ].map((img, i) => (
                 <FadeIn key={`dorm-${i}`} delay={i * 0.1}>
                   <div className="aspect-[4/3] rounded-xl overflow-hidden group relative cursor-pointer">
