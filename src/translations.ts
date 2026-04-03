@@ -158,7 +158,7 @@ export const translations = {
       title: '登别山静馆',
       subtitle: '位于登别卡鲁鲁斯温泉乡的宁静山间温泉旅馆',
       priceLabel: '售价',
-      price: '2亿5,000',
+      price: '2亿5千',
       currency: '万日元',
       location: '北海道登别市卡鲁鲁斯町',
       capacity: '客房17间（最多可容纳43人）',
