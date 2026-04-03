@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 import { 
   MapPin, 
   Building, 
@@ -11,7 +13,8 @@ import {
   Info,
   Star,
   CheckCircle2,
-  Globe
+  Globe,
+  Download
 } from 'lucide-react';
 import { translations, Language } from './translations';
 
@@ -37,6 +40,7 @@ const FadeIn = ({ children, delay = 0, className = "" }: FadeInProps) => (
 export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [lang, setLang] = useState<Language>('ja');
+  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
   const t = translations[lang];
 
   useEffect(() => {
@@ -47,10 +51,62 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const handleDownloadPdf = async () => {
+    setIsGeneratingPdf(true);
+    try {
+      const element = document.getElementById('pdf-content');
+      if (!element) return;
+      
+      // Temporarily hide elements that shouldn't be in the PDF
+      const noPrintElements = document.querySelectorAll('.no-print');
+      noPrintElements.forEach(el => (el as HTMLElement).style.display = 'none');
+
+      const canvas = await html2canvas(element, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        windowWidth: 1200, // Force desktop layout
+      });
+      
+      // Restore hidden elements
+      noPrintElements.forEach(el => (el as HTMLElement).style.display = '');
+
+      const imgData = canvas.toDataURL('image/jpeg', 1.0);
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: 'a4',
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      
+      let heightLeft = pdfHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, pdfHeight);
+      heightLeft -= pdf.internal.pageSize.getHeight();
+
+      while (heightLeft > 0) {
+        position = heightLeft - pdfHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'JPEG', 0, position, pdfWidth, pdfHeight);
+        heightLeft -= pdf.internal.pageSize.getHeight();
+      }
+
+      pdf.save(`Tobetsu-Hotel-Presentation-${lang}.pdf`);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      alert('PDFの生成中にエラーが発生しました。 / Error generating PDF.');
+    } finally {
+      setIsGeneratingPdf(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-ryokan-light selection:bg-ryokan-gold selection:text-white">
+    <div id="pdf-content" className="min-h-screen bg-ryokan-light selection:bg-ryokan-gold selection:text-white">
       {/* Navigation */}
-      <nav className={`fixed w-full z-50 transition-all duration-300 ${scrolled ? 'bg-white/90 backdrop-blur-md shadow-sm py-4' : 'bg-transparent py-6'}`}>
+      <nav className={`fixed w-full z-50 transition-all duration-300 no-print ${scrolled ? 'bg-white/90 backdrop-blur-md shadow-sm py-4' : 'bg-transparent py-6'}`}>
         <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
           <div className={`font-serif text-xl font-bold tracking-widest ${scrolled ? 'text-ryokan-green' : 'text-white drop-shadow-md'}`}>
             {t.hero.title}
@@ -70,9 +126,18 @@ export default function App() {
               <span>|</span>
               <button onClick={() => setLang('en')} className={`hover:text-ryokan-gold transition-colors ${lang === 'en' ? 'text-ryokan-gold font-bold' : ''}`}>EN</button>
             </div>
-            <a href="tel:011-600-6863" className="hidden sm:inline-block bg-ryokan-gold hover:bg-ryokan-gold/90 text-white px-6 py-2 rounded-full text-sm font-medium transition-colors shadow-lg">
-              {t.nav.contact}
-            </a>
+            <button 
+              onClick={handleDownloadPdf}
+              disabled={isGeneratingPdf}
+              className={`hidden sm:flex items-center gap-2 bg-ryokan-gold hover:bg-ryokan-gold/90 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed`}
+            >
+              {isGeneratingPdf ? (
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+              ) : (
+                <Download className="w-4 h-4" />
+              )}
+              {lang === 'zh' ? '下载 PDF' : lang === 'en' ? 'Download PDF' : 'PDFをダウンロード'}
+            </button>
           </div>
         </div>
       </nav>
